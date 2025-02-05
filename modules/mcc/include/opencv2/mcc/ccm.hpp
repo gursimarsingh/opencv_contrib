@@ -392,6 +392,13 @@ public:
     */
     CV_WRAP ColorCorrectionModel(const Mat& src, Mat colors, COLOR_SPACE ref_cs, Mat colored);
 
+    /** @brief Set the reference color using a built-in (CONST_COLOR) reference color chart.
+     *  This lets you change the reference color patch data after you’ve constructed
+     *  the model or at any time.
+     @param output original color values
+     */
+    void getColorMatrix(CONST_COLOR constcolor, Mat& output);
+
     /** @brief set ColorSpace
     @note It should be some RGB color space;
     Supported list of color cards:
