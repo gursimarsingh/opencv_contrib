@@ -101,6 +101,7 @@ public:
 
     void getColor(Mat& img_, bool islinear = false);
     void getColor(CONST_COLOR constcolor);
+    void getColorMatrix(CONST_COLOR constcolor, Mat& output);
     void getColor(Mat colors_, COLOR_SPACE cs_, Mat colored_);
     void getColor(Mat colors_, COLOR_SPACE ref_cs_);
 
@@ -302,6 +303,11 @@ void ColorCorrectionModel::Impl::getColor(CONST_COLOR constcolor)
 {
     dst = (GetColor::getColor(constcolor));
 }
+void ColorCorrectionModel::Impl::getColorMatrix(CONST_COLOR constcolor, Mat& output)
+{
+    dst = (GetColor::getColor(constcolor));
+    output = dst->colors;
+}
 void ColorCorrectionModel::Impl::getColor(Mat colors_, COLOR_SPACE ref_cs_)
 {
     dst.reset(new Color(colors_, *GetCS::getInstance().get_cs(ref_cs_)));
@@ -309,6 +315,10 @@ void ColorCorrectionModel::Impl::getColor(Mat colors_, COLOR_SPACE ref_cs_)
 void ColorCorrectionModel::Impl::getColor(Mat colors_, COLOR_SPACE cs_, Mat colored_)
 {
     dst.reset(new Color(colors_, *GetCS::getInstance().get_cs(cs_), colored_));
+}
+void ColorCorrectionModel::getColorMatrix(CONST_COLOR constcolor, Mat& output)
+{
+    p->getColorMatrix(constcolor, output);
 }
 ColorCorrectionModel::ColorCorrectionModel(const Mat& src_, CONST_COLOR constcolor)
     : p(std::make_shared<Impl>())
